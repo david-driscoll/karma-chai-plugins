@@ -3,16 +3,6 @@ var fs = require('fs');
 
 // TODO Do not expect require to be included before plugins
 var requireUsed = function(files) {
-    if (files) {
-        for (var i = files.length, pattern; i > 0; i--) {
-            pattern = files[i] && files[i].pattern;
-
-            if (typeof pattern === 'string' && pattern.indexOf('/karma-requirejs/') !== -1) {
-                return true;
-            }
-        }
-    }
-
     return false;
 };
 
@@ -67,7 +57,7 @@ var plugins = {
             requireAdapter(name, filePath, files, true);
         }
 
-        files.push(pattern(filePath, required));
+        files.unshift(pattern(filePath, required));
     },
     'sinon-chai': function(name, files) {
         var filePath = require.resolve(name);
@@ -77,7 +67,7 @@ var plugins = {
             requireAdapter(name, filePath, files, true);
         }
 
-        files.push(pattern(filePath, required));
+        files.unshift(pattern(filePath, required));
         files.unshift(pattern(path.resolve(require.resolve('sinon'), '../../pkg/sinon.js')));
     },
     'chai-jquery': function(name, files) {
@@ -88,7 +78,7 @@ var plugins = {
             requireAdapter(name, filePath, files, true);
         }
 
-        files.push(pattern(filePath, required));
+        files.unshift(pattern(filePath, required));
     }
 };
 
